@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Linkedin, Github, ArrowRight, MapPin, Facebook, Instagram } from 'lucide-react';
+import { Mail, Linkedin, Github, ArrowRight, MapPin, Facebook, Instagram, Phone } from 'lucide-react';
 
 // --- CUSTOM ICONS (For the Real Brand Look) ---
 
@@ -14,8 +14,6 @@ const XIcon = () => (
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
-
-// ----------------------------------------------
 
 const Contact = () => {
   return (
@@ -36,15 +34,29 @@ const Contact = () => {
             </div>
 
             <div className="space-y-6">
-              {/* Email */}
+              
+              {/* Phone Number (NEW) */}
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-blue-50 rounded-lg text-blue-600">
+                  <Phone size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900">Phone</h3>
+                  <a href="tel:+255616166496" className="text-slate-600 hover:text-blue-600 transition-colors">
+                    +255 616 166 496
+                  </a>
+                </div>
+              </div>
+
+              {/* Email (UPDATED) */}
               <div className="flex items-start gap-4">
                 <div className="p-3 bg-blue-50 rounded-lg text-blue-600">
                   <Mail size={24} />
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900">Email Me</h3>
-                  <a href="mailto:abdalah@example.com" className="text-slate-600 hover:text-blue-600 transition-colors">
-                    abdalah@example.com
+                  <a href="mailto:abdalahwambura80@gmail.com" className="text-slate-600 hover:text-blue-600 transition-colors">
+                    abdalahwambura80@gmail.com
                   </a>
                 </div>
               </div>
@@ -62,106 +74,79 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Socials - UPDATED */}
+              {/* Socials */}
               <div className="pt-6">
                 <h3 className="font-bold text-slate-900 mb-4">Connect on Social</h3>
                 <div className="flex flex-wrap gap-3">
-                  
-                  {/* LinkedIn - REAL LINK */}
-                  <a 
-                    href="https://www.linkedin.com/in/abdalah-wambura-905a27361?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#0077b5] hover:text-white transition-all duration-300"
-                  >
+                  <a href="https://www.linkedin.com/in/abdalah-wambura-905a27361?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noreferrer" className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#0077b5] hover:text-white transition-all duration-300">
                     <Linkedin size={20} />
                   </a>
-
-                  {/* GitHub - RESTORED */}
-                  <a 
-                    href="#" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#333] hover:text-white transition-all duration-300"
-                  >
+                  <a href="#" target="_blank" rel="noreferrer" className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#333] hover:text-white transition-all duration-300">
                     <Github size={20} />
                   </a>
-
-                  {/* Instagram - REAL LINK */}
-                  <a 
-                    href="https://www.instagram.com/abdalahwambura?igsh=MTg5NWZraXA5eTcxZw==" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#E1306C] hover:text-white transition-all duration-300"
-                  >
+                  <a href="https://www.instagram.com/abdalahwambura?igsh=MTg5NWZraXA5eTcxZw==" target="_blank" rel="noreferrer" className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#E1306C] hover:text-white transition-all duration-300">
                     <Instagram size={20} />
                   </a>
-
-                  {/* X (Twitter) - REAL ICON & REAL LINK */}
-                  <a 
-                    href="https://twitter.com/AbdalahJoseph52" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-black hover:text-white transition-all duration-300"
-                  >
+                  <a href="https://twitter.com/AbdalahJoseph52" target="_blank" rel="noreferrer" className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-black hover:text-white transition-all duration-300">
                     <XIcon />
                   </a>
-
-                  {/* Facebook - REAL LINK ADDED */}
-                  <a 
-                    href="https://www.facebook.com/share/1KYRgiCz55/" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#1877F2] hover:text-white transition-all duration-300"
-                  >
+                  <a href="https://www.facebook.com/share/1KYRgiCz55/" target="_blank" rel="noreferrer" className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#1877F2] hover:text-white transition-all duration-300">
                     <Facebook size={20} />
                   </a>
-
-                  {/* WhatsApp - REAL ICON & REAL NUMBER */}
-                  <a 
-                    href="https://wa.me/255688735820" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#25D366] hover:text-white transition-all duration-300"
-                  >
+                  <a href="https://wa.me/255688735820" target="_blank" rel="noreferrer" className="p-3 bg-slate-100 rounded-lg text-slate-600 hover:bg-[#25D366] hover:text-white transition-all duration-300">
                     <WhatsAppIcon />
                   </a>
-
                 </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: The Form */}
+          {/* RIGHT: The Working Form */}
           <div className="bg-slate-50 p-8 md:p-10 rounded-3xl border border-slate-200 shadow-sm">
-            <form className="space-y-6">
+            
+            {/* FORM ACTION ADDED HERE */}
+            <form 
+              action="https://formsubmit.co/abdalahwambura80@gmail.com" 
+              method="POST"
+              className="space-y-6"
+            >
+              
+              {/* Anti-spam honeypot */}
+              <input type="text" name="_honey" style={{display: 'none'}} />
+              
+              {/* Disable Captcha for cleaner look */}
+              <input type="hidden" name="_captcha" value="false" />
+              
+              {/* Success Page (Optional - stays on page if not set, or you can set a redirect) */}
+              <input type="hidden" name="_next" value="https://abdalah-portfolio.vercel.app/" />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700">Name</label>
-                  <input type="text" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white" placeholder="John Doe" />
+                  <input type="text" name="name" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white" placeholder="John Doe" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700">Email</label>
-                  <input type="email" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white" placeholder="john@company.com" />
+                  <input type="email" name="email" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white" placeholder="john@company.com" />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Subject</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white text-slate-600">
-                  <option>Project Inquiry (Dev)</option>
-                  <option>Business Consultation</option>
-                  <option>Recruitment / Hiring</option>
-                  <option>Other</option>
+                <select name="subject" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white text-slate-600">
+                  <option value="Project Inquiry">Project Inquiry (Dev)</option>
+                  <option value="Business Consultation">Business Consultation</option>
+                  <option value="Recruitment">Recruitment / Hiring</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Message</label>
-                <textarea rows="4" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white resize-none" placeholder="Tell me about your project goal..."></textarea>
+                <textarea name="message" required rows="4" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white resize-none" placeholder="Tell me about your project goal..."></textarea>
               </div>
 
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2">
+              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2">
                 Send Message <ArrowRight size={20} />
               </button>
             </form>
@@ -169,9 +154,9 @@ const Contact = () => {
 
         </div>
 
-        {/* Copyright Footer */}
+        {/* Copyright Footer - UPDATED */}
         <div className="mt-24 pt-8 border-t border-slate-200 text-center text-slate-500 text-sm">
-          <p>© 2025 Abdalah Wambura. Built with React & Tailwind.</p>
+          <p>© 2025 Abdalah Wambura. All rights reserved.</p>
         </div>
 
       </div>
