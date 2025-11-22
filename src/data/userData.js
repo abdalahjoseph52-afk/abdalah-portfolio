@@ -1,11 +1,11 @@
 // ✅ MASTER CONTROL CENTER
 import profileImg from '../assets/profile.jpg';
-// Import Project Images
 import propertyImg from '../assets/property-dashboard.png';
 import redinkImg from '../assets/redink.png';
 import ujenziImg from '../assets/ujenzi.png';
-// Import Book Cover (Use web link or local import)
-const bookCover = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop";
+
+// 1. IMPORT YOUR LOCAL BOOK COVER
+import myBookCover from '../assets/my-book-cover.jpg'; 
 
 export const userData = {
   // 1. PERSONAL DETAILS
@@ -22,7 +22,7 @@ export const userData = {
   phone: "+255 688 735 820",
   location: "Dar es Salaam, Tanzania",
 
-  // 3. SOCIAL LINKS (This fixes the crash!)
+  // 3. SOCIAL LINKS
   socials: {
     whatsapp: "https://wa.me/255688735820",
     instagram: "https://www.instagram.com/abdalahwambura",
@@ -38,7 +38,7 @@ export const userData = {
     { title: "Psychology & EQ", desc: "User Experience (UX), Leadership" }
   ],
 
-  // 5. PROJECTS (Controlled from here now)
+  // 5. PROJECTS
   projects: [
     {
       title: "Ujenzi Tips Platform",
@@ -80,17 +80,14 @@ export const userData = {
     {
       id: 1,
       title: "MAISHA ZAIDI YA KUISHI",
-      subtitle: "Mwongozo wa Kusimama, Kutulia, na Kuanza Safari Yako",
+      subtitle: "Safari ya Kuijua Nafsi Yako",
       author: "Abdalah J. Wambura",
-      cover: bookCover, 
+      
+      // ✅ 2. USE THE LOCAL IMAGE VARIABLE HERE
+      cover: myBookCover, 
+      
       desc: "Kitabu hiki si tangazo la majibu, bali ni ushuhuda wa mwaliko niliopewa na sauti ya ndani. Mwongozo wa kutoka kwenye 'kuwepo tu' na kuelekea kwenye 'kuishi kweli'.",
-      chapters: [
-        {
-          title: "DIBAJI",
-          text: `Kuna wakati nilijikuta nimesimama kimya katikati ya kelele za maisha...`
-          // (You can paste the rest of the content here later)
-        }
-      ]
+      pdfUrl: "/book.pdf" // Ensure 'book.pdf' is in your public folder!
     }
   ]
 };
