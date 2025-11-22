@@ -1,40 +1,49 @@
 import React from 'react';
 import { ExternalLink, Github, Folder, ArrowRight } from 'lucide-react';
-// Make sure this path matches exactly where you put the screenshot
-import propertyImg from '../../assets/property-dashboard.png'; 
+
+// IMPORT YOUR LOCAL SCREENSHOTS
+// Ensure these files are in src/assets/
+import propertyImg from '../../assets/property-dashboard.png';
+import redinkImg from '../../assets/redink.png'; 
+import ujenziImg from '../../assets/ujenzi.png';
 
 const Projects = () => {
   
   const projects = [
     {
-      title: "PropertyPro TZ",
-      category: "Real Estate & Finance",
-      description: "A comprehensive Property Management System tailored for the Tanzanian market. Handles tenant tracking, lease agreements, and automated financial reporting.",
-      tech: ["React", "Recharts", "Tailwind", "Finance Logic"], // <--- This list was likely missing
-      status: "Live Prototype",
-      statusColor: "text-green-600 bg-green-50 border-green-100",
-      link: "https://property-pro-demo.vercel.app", // Update this if your link is different
-      github: "https://github.com/abdalahjoseph52-afk/property-pro-demo"
-    },
-    {
-      title: "KaribuLink",
-      category: "Event Tech",
-      description: "A digital invitation and event management platform. Focuses on seamless user experience (UX) and automated guest coordination.",
-      tech: ["Next.js", "PostgreSQL", "Prisma", "Stripe"],
-      status: "Prototype",
-      statusColor: "text-blue-600 bg-blue-50 border-blue-100",
-      link: "#",
-      github: "#"
-    },
-    {
       title: "Ujenzi Tips Platform",
-      category: "Construction Media",
-      description: "An educational platform connecting homeowners with reliable construction data and professionals. Bridges the gap between technical info and laypeople.",
-      tech: ["React", "CMS Integration", "SEO", "Analytics"],
-      status: "Live Concept",
-      statusColor: "text-green-600 bg-green-50 border-green-100",
-      link: "#",
-      github: "#"
+      category: "Construction Tech",
+      description: "A national construction education platform. Features a custom English/Swahili bilingual engine, YouTube API integration for site visits, and a newsletter lead magnet.",
+      tech: ["React", "Tailwind", "YouTube API", "Bilingual Logic"],
+      status: "Live Product",
+      statusColor: "text-yellow-600 bg-yellow-50 border-yellow-100",
+      // REPLACE WITH YOUR REAL LINK
+      link: "https://ujenzi-tips.vercel.app", 
+      github: "https://github.com/abdalahjoseph52-afk/ujenzi-tips",
+      image: ujenziImg
+    },
+    {
+      title: "Redink Agency",
+      category: "Creative Agency",
+      description: "High-performance agency website with 'Pro Max' visuals. Includes interactive before/after sliders, filterable portfolio grid, and mobile money trust integration.",
+      tech: ["Framer Motion", "React Helmet (SEO)", "Google Maps API"],
+      status: "Live Agency",
+      statusColor: "text-red-600 bg-red-50 border-red-100",
+      // REPLACE WITH YOUR REAL LINK
+      link: "https://redink-agency.vercel.app", 
+      github: "https://github.com/abdalahjoseph52-afk/redink-agency",
+      image: redinkImg
+    },
+    {
+      title: "PropertyPro TZ",
+      category: "Fintech & Real Estate",
+      description: "A comprehensive financial dashboard for property managers. Handles tenant tracking, lease agreements, and automated revenue reporting (P&L).",
+      tech: ["React", "Recharts", "Finance Logic"],
+      status: "Live Prototype",
+      statusColor: "text-blue-600 bg-blue-50 border-blue-100",
+      link: "https://property-pro-demo.vercel.app",
+      github: "https://github.com/abdalahjoseph52-afk/property-pro-demo",
+      image: propertyImg
     }
   ];
 
@@ -62,16 +71,15 @@ const Projects = () => {
           {projects.map((project, index) => (
             <div key={index} className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
               
-              {/* Visual Placeholder (Card Top) */}
+              {/* Visual Card Top */}
               <div className="h-48 bg-slate-100 relative overflow-hidden group-hover:bg-slate-200 transition-colors">
                 
-                {/* LOGIC: If it is PropertyPro, use the Image. Else, use Icon */}
-                {project.title === "PropertyPro TZ" ? (
+                {/* Image Logic */}
+                {project.image ? (
                   <img 
-                    src={propertyImg} 
-                    alt="PropertyPro Dashboard" 
+                    src={project.image} 
+                    alt={project.title} 
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='flex'}} // Fallback if image fails
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-slate-300">
@@ -95,13 +103,13 @@ const Projects = () => {
                   {project.title}
                 </h3>
                 
-                <p className="text-slate-600 mb-6 flex-1 leading-relaxed">
+                <p className="text-slate-600 mb-6 flex-1 leading-relaxed text-sm">
                   {project.description}
                 </p>
 
-                {/* Tech Stack Pills - THIS IS WHERE THE ERROR WAS */}
+                {/* Tech Stack Pills */}
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tech && project.tech.map((tech) => (
+                  {project.tech.map((tech) => (
                     <span key={tech} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-md">
                       {tech}
                     </span>
@@ -122,7 +130,6 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* Mobile "View All" Button */}
         <div className="mt-12 text-center md:hidden">
           <a href="#" className="inline-flex items-center gap-2 text-blue-600 font-medium">
             View Github <ArrowRight size={16} />

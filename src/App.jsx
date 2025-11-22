@@ -1,9 +1,10 @@
 import React from 'react';
 import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
-import About from './components/sections/About'; // <--- Import
+import About from './components/sections/About';
 import Skills from './components/sections/Skills';
 import Projects from './components/sections/Projects';
+import Library from './components/sections/Library'; // <--- IMPORT
 import Contact from './components/sections/Contact';
 
 function App() {
@@ -13,10 +14,14 @@ function App() {
       
       <main>
         <Hero />
-        <About /> {/* <--- Place it here */}
+        <About />
         <Skills />
         <Projects />
-        <Contact /> 
+        
+        {/* NEW LIBRARY SECTION */}
+        <Library />
+        
+        <Contact />
       </main>
       
     </div>
