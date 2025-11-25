@@ -29,7 +29,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
             <span className="text-2xl font-bold text-blue-600">
-              Wambura<span className="text-slate-900">.</span>
+              Abadalah Wambura<span className="text-slate-900">.</span>
             </span>
           </div>
 
