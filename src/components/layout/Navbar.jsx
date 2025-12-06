@@ -1,3 +1,5 @@
+// src/components/layout/Navbar.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 
@@ -18,7 +20,8 @@ const Navbar = () => {
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
-    { name: 'Library', href: '#library' }, // Added Library Link
+    { name: 'Blog', href: '#blog' }, // <--- ADDED: Blog Link
+    { name: 'Library', href: '#library' },
   ];
 
   return (
