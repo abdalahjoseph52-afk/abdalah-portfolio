@@ -4,12 +4,13 @@ import { collection, query, orderBy, onSnapshot, addDoc, deleteDoc, updateDoc, d
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { uploadImage } from '../../lib/uploadService';
 import { useToast } from '../../context/ToastContext';
-import ReactQuill from 'react-quill'; 
-import 'react-quill/dist/quill.snow.css'; 
+// 👇 HAPA: Nimehakikisha 'Download' na 'Settings' zipo
 import { 
   LayoutDashboard, Folder, BookOpen, FileText, Mail, LogOut, Plus, Edit2, Trash2, X, Loader2, 
-  UploadCloud, Phone, MessageSquare, Settings, Instagram, Twitter, Linkedin, Github, MapPin
+  UploadCloud, Phone, MessageSquare, Settings, Instagram, Twitter, Linkedin, Github, MapPin, Download
 } from 'lucide-react';
+import ReactQuill from 'react-quill'; 
+import 'react-quill/dist/quill.snow.css'; 
 
 const AdminDashboard = () => {
   const { success, error } = useToast();
@@ -31,14 +32,10 @@ const AdminDashboard = () => {
   const [pdfFile, setPdfFile] = useState(null); 
   const [authForm, setAuthForm] = useState({ email: '', password: '' });
 
-  // --- EDITOR MPYA YENYE NGUVU (Fonts, Alignment, Size) ---
   const quillModules = {
     toolbar: [
       [{ 'header': [1, 2, 3, false] }],
-      [{ 'font': [] }], // Hii inaongeza Fonts
-      [{ 'size': ['small', false, 'large', 'huge'] }], // Hii inaongeza Size
       ['bold', 'italic', 'underline', 'strike'],
-      [{ 'align': [] }], // Hii inaongeza Alignment (Katikati, Kushoto, Kulia)
       [{ 'color': [] }, { 'background': [] }],
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       ['link', 'clean']
@@ -53,7 +50,7 @@ const AdminDashboard = () => {
         const unsubs = collections.map(key => 
           onSnapshot(query(collection(db, key), orderBy('createdAt', 'desc')), s => {
             setData(prev => ({ ...prev, [key]: s.docs.map(d => ({ id: d.id, ...d.data() })) }));
-          })
+          }, (err) => console.error(err))
         );
         getDoc(doc(db, "settings", "general")).then(d => { if(d.exists()) setSettings(d.data()); });
         
@@ -70,7 +67,7 @@ const AdminDashboard = () => {
     try { 
       await signInWithEmailAndPassword(auth, authForm.email, authForm.password); 
       success("Umeingia!"); 
-    } catch (err) { error("Imeshindikana. Hakiki email/password."); } 
+    } catch (err) { error("Imeshindikana. Angalia mtandao."); } 
     finally { setIsSubmitting(false); }
   };
 
@@ -90,11 +87,12 @@ const AdminDashboard = () => {
           const url = await uploadImage(selectedFile);
           payload.image = url; 
           if (collectionName === 'books') payload.cover = url;
-        } catch(e) { throw new Error("Picha imegoma."); }
+        } catch(e) { throw new Error("Picha imegoma kupanda."); }
       }
       
       if (collectionName === 'books' && pdfFile) {
-         try { const pdfUrl = await uploadImage(pdfFile); payload.pdfUrl = pdfUrl; } catch(e) { throw new Error("PDF imegoma."); }
+         try { const pdfUrl = await uploadImage(pdfFile); payload.pdfUrl = pdfUrl; } 
+         catch(e) { throw new Error("PDF imegoma."); }
       }
 
       if (collectionName === 'projects' && typeof payload.tech === 'string') {
@@ -146,18 +144,10 @@ const AdminDashboard = () => {
              <input className="p-3 border rounded" type="date" value={formData.date||''} onChange={e=>setFormData({...formData, date:e.target.value})}/>
           </div>
           <textarea className="w-full p-3 border rounded mb-3" rows="2" placeholder="Short Summary" value={formData.summary||''} onChange={e=>setFormData({...formData, summary:e.target.value})}/>
-          
           <div className="mb-4 bg-white">
-            <label className="block text-sm font-bold mb-1 text-slate-700">Content (Full Article)</label>
-            <ReactQuill 
-              theme="snow" 
-              value={formData.content || ''} 
-              onChange={(content) => setFormData({...formData, content})}
-              modules={quillModules}
-              className="h-64 mb-12" 
-            />
+            <label className="block text-sm font-bold mb-1 text-slate-700">Content</label>
+            <ReactQuill theme="snow" value={formData.content || ''} onChange={(content) => setFormData({...formData, content})} modules={quillModules} className="h-64 mb-12" />
           </div>
-
           <div className="border-2 border-dashed p-4 rounded text-center mt-4"><p className="text-xs mb-1">Blog Image</p><input type="file" accept="image/*" onChange={e=>setSelectedFile(e.target.files[0])}/></div>
         </>
       );
@@ -186,7 +176,7 @@ const AdminDashboard = () => {
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-3xl font-bold text-slate-900 capitalize">{activeTab}</h1>
               {activeTab === 'messages' ? (
-                 <button onClick={handleExportMessages} className="bg-green-600 text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-lg hover:bg-green-700"><Plus size={20}/> Export CSV</button>
+                 <button onClick={handleExportMessages} className="bg-green-600 text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-lg hover:bg-green-700"><Download size={20}/> Export CSV</button>
               ) : activeTab !== 'settings' && (
                  <button onClick={()=>openModal()} className="bg-slate-900 text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-lg hover:bg-slate-800"><Plus size={20}/> Add New</button>
               )}
@@ -194,7 +184,6 @@ const AdminDashboard = () => {
 
             {activeTab === 'settings' ? (
                <div className="max-w-3xl space-y-6">
-                 {/* Settings Form - Same as previous */}
                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                    <h3 className="font-bold text-lg mb-4">Contact Info</h3>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -207,7 +196,7 @@ const AdminDashboard = () => {
                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                    <h3 className="font-bold text-lg mb-4">Social Media & Profile</h3>
                    <div className="grid grid-cols-1 gap-4 mb-6">
-                     <div className="flex gap-2 items-center"><span className="w-8"><MessageSquare size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="WhatsApp Link" value={settings.whatsapp} onChange={e=>setSettings({...settings, whatsapp:e.target.value})}/></div>
+                     <div className="flex gap-2 items-center"><span className="w-8"><MessageSquare size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="WhatsApp Link (Full URL)" value={settings.whatsapp} onChange={e=>setSettings({...settings, whatsapp:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Instagram size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="Instagram Link" value={settings.instagram} onChange={e=>setSettings({...settings, instagram:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Linkedin size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="LinkedIn Link" value={settings.linkedin} onChange={e=>setSettings({...settings, linkedin:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Github size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="GitHub Link" value={settings.github} onChange={e=>setSettings({...settings, github:e.target.value})}/></div>
@@ -220,8 +209,7 @@ const AdminDashboard = () => {
                  <button onClick={handleSettingsSave} disabled={isSubmitting} className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">{isSubmitting?'Saving...':'Save Settings'}</button>
                </div>
             ) : activeTab === 'messages' ? (
-                /* Messages UI - Same as previous */
-                <div className="grid gap-4">
+               <div className="grid gap-4">
                  {data.messages.length === 0 ? <p>No messages.</p> : data.messages.map(msg => (
                    <div key={msg.id} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                      <div className="flex justify-between items-start">
@@ -229,6 +217,10 @@ const AdminDashboard = () => {
                        <button onClick={()=>deleteItem('messages', msg.id)} className="text-red-400 hover:text-red-600"><Trash2 size={16}/></button>
                      </div>
                      <p className="mt-3 text-sm bg-slate-50 p-3 rounded">{msg.message}</p>
+                     <div className="mt-3 flex gap-2">
+                       {msg.phone && <a href={`https://wa.me/${msg.phone.replace('+','')}`} target="_blank" rel="noreferrer" className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded font-bold flex items-center gap-1"><MessageSquare size={12}/> WhatsApp</a>}
+                       {msg.phone && <a href={`tel:${msg.phone}`} className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded font-bold flex items-center gap-1"><Phone size={12}/> Call</a>}
+                     </div>
                    </div>
                  ))}
                </div>
@@ -244,6 +236,7 @@ const AdminDashboard = () => {
                        </div>
                      </div>
                      <h3 className="font-bold text-slate-900 truncate">{item.title}</h3>
+                     <p className="text-xs text-slate-500">{item.category || item.author}</p>
                    </div>
                  ))}
                </div>
