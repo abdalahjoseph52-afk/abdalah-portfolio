@@ -6,7 +6,6 @@ import { uploadImage } from '../../lib/uploadService';
 import { useToast } from '../../context/ToastContext';
 import ReactQuill from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css'; 
-// Added Facebook Icon
 import { 
   LayoutDashboard, Folder, BookOpen, FileText, Mail, LogOut, Plus, Edit2, Trash2, X, Loader2, 
   UploadCloud, Phone, MessageSquare, Settings, Instagram, Twitter, Linkedin, Github, Facebook, MapPin, Download
@@ -22,7 +21,7 @@ const AdminDashboard = () => {
   const [data, setData] = useState({ projects: [], blogs: [], books: [], messages: [] });
   const [settings, setSettings] = useState({
     email: '', phone: '', location: '', address: '', whatsapp: '', 
-    instagram: '', twitter: '', linkedin: '', github: '', facebook: '', // Added Facebook
+    instagram: '', twitter: '', linkedin: '', github: '', facebook: '',
     profileImage: ''
   });
 
@@ -189,24 +188,20 @@ const AdminDashboard = () => {
                      <input className="p-3 border rounded-lg" placeholder="Address (P.O. Box)" value={settings.address} onChange={e=>setSettings({...settings, address:e.target.value})}/>
                    </div>
                  </div>
-
                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                    <h3 className="font-bold text-lg mb-4">Social Media & Profile</h3>
                    <div className="grid grid-cols-1 gap-4 mb-6">
-                     <div className="flex gap-2 items-center"><span className="w-8"><MessageSquare size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="WhatsApp Link (Full URL)" value={settings.whatsapp} onChange={e=>setSettings({...settings, whatsapp:e.target.value})}/></div>
-                     {/* ADDED FACEBOOK HERE */}
+                     <div className="flex gap-2 items-center"><span className="w-8"><MessageSquare size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="WhatsApp Link" value={settings.whatsapp} onChange={e=>setSettings({...settings, whatsapp:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Facebook size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="Facebook Link" value={settings.facebook} onChange={e=>setSettings({...settings, facebook:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Instagram size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="Instagram Link" value={settings.instagram} onChange={e=>setSettings({...settings, instagram:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Linkedin size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="LinkedIn Link" value={settings.linkedin} onChange={e=>setSettings({...settings, linkedin:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Github size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="GitHub Link" value={settings.github} onChange={e=>setSettings({...settings, github:e.target.value})}/></div>
                    </div>
-                   
                    <div className="border-t pt-4">
                        <h4 className="font-bold text-sm mb-2">Update Profile Picture</h4>
                        <input type="file" accept="image/*" onChange={e => setSelectedFile(e.target.files[0])} className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-50 file:text-blue-700"/>
                    </div>
                  </div>
-
                  <button onClick={handleSettingsSave} disabled={isSubmitting} className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">{isSubmitting?'Saving...':'Save Settings'}</button>
                </div>
             ) : activeTab === 'messages' ? (
@@ -218,28 +213,37 @@ const AdminDashboard = () => {
                        <button onClick={()=>deleteItem('messages', msg.id)} className="text-red-400 hover:text-red-600"><Trash2 size={16}/></button>
                      </div>
                      <p className="mt-3 text-sm bg-slate-50 p-3 rounded">{msg.message}</p>
-                     <div className="mt-3 flex gap-2">
-                       {msg.phone && <a href={`https://wa.me/${msg.phone.replace('+','')}`} target="_blank" rel="noreferrer" className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded font-bold flex items-center gap-1"><MessageSquare size={12}/> WhatsApp</a>}
-                       {msg.phone && <a href={`tel:${msg.phone}`} className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded font-bold flex items-center gap-1"><Phone size={12}/> Call</a>}
-                     </div>
                    </div>
                  ))}
                </div>
             ) : (
                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                  {data[activeTab]?.map(item => (
-                   <div key={item.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 relative group">
+                   <div key={item.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col h-full">
+                     {/* Image Container */}
                      <div className="h-40 bg-slate-100 rounded-lg mb-3 overflow-hidden relative">
-                       {(item.image || item.cover) && <img src={item.image || item.cover} className="w-full h-full object-cover"/>}
-                       
-                       {/* FIX: Buttons are now always visible (removed opacity-0 group-hover:opacity-100) */}
-                       <div className="absolute top-2 right-2 flex gap-1">
-                         <button onClick={()=>openModal(item)} className="p-2 bg-white rounded-full text-blue-600 shadow-sm"><Edit2 size={14}/></button>
-                         <button onClick={()=>deleteItem(activeTab, item.id)} className="p-2 bg-white rounded-full text-red-600 shadow-sm"><Trash2 size={14}/></button>
-                       </div>
+                       {(item.image || item.cover) ? (
+                         <img src={item.image || item.cover} className="w-full h-full object-cover"/>
+                       ) : (
+                         <div className="w-full h-full flex items-center justify-center text-slate-300"><Folder size={32}/></div>
+                       )}
                      </div>
-                     <h3 className="font-bold text-slate-900 truncate">{item.title}</h3>
-                     <p className="text-xs text-slate-500">{item.category || item.author}</p>
+                     
+                     {/* Content */}
+                     <div className="flex-1 mb-4">
+                        <h3 className="font-bold text-slate-900 line-clamp-1">{item.title}</h3>
+                        <p className="text-xs text-slate-500 line-clamp-1">{item.category || item.author}</p>
+                     </div>
+
+                     {/* BUTTONS ZIKO CHINI (ZINAONEKANA MUDA WOTE) */}
+                     <div className="flex gap-2 pt-3 border-t border-slate-100 mt-auto">
+                       <button onClick={()=>openModal(item)} className="flex-1 flex items-center justify-center gap-2 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-bold active:scale-95 transition-transform">
+                         <Edit2 size={16}/> Edit
+                       </button>
+                       <button onClick={()=>deleteItem(activeTab, item.id)} className="flex-1 flex items-center justify-center gap-2 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-bold active:scale-95 transition-transform">
+                         <Trash2 size={16}/> Del
+                       </button>
+                     </div>
                    </div>
                  ))}
                </div>

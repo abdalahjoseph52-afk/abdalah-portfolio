@@ -9,3 +9,34 @@ html {
 body {
   @apply bg-slate-50 text-slate-900;
 }
+
+/* HII HAPA FIX YA MPANGILIO WA MANENO (Mobile Justify)
+   - Kwenye simu (Default): Maandishi yanakuwa Justified.
+   - Kwenye PC (md:): Yanarudi Left (au yanabaki justified ukipenda).
+*/
+p {
+  @apply text-justify hyphens-auto leading-relaxed;
+}
+
+/* Custom Scrollbar for Admin Sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Prose Override for Blog Content to prevent overflow */
+.prose {
+  max-width: 100%;
+}
+.prose img {
+  border-radius: 0.75rem;
+}
