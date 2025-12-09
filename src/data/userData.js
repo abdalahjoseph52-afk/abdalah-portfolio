@@ -1,12 +1,13 @@
-// ✅ MASTER CONTROL CENTER
+// ✅ MASTER CONTROL CENTER (DATA ZAKO ZOTE ZIPO HAPA)
 import profileImg from '../assets/profile.jpg';
 import propertyImg from '../assets/property-dashboard.png';
 import redinkImg from '../assets/redink.png';
 import ujenziImg from '../assets/ujenzi.png';
 import myBookCover from '../assets/my-book-cover.jpg';
-import tucasaImg from '../assets/tucasa-preview.png';
+import tucasaImg from '../assets/tucasa-preview.png'; // Hakikisha picha hii ipo src/assets
 
 export const userData = {
+  // 1. PERSONAL DETAILS
   name: "Abdalah Wambura",
   role: "Full Stack Developer | Finance & Admin",
   tagline: "Merging Technical Logic with Business Strategy.",
@@ -17,11 +18,13 @@ export const userData = {
     desc: "I noticed a gap in the Tanzanian market: Developers write great code, but they often don't understand the financial or operational goals of the business. With my background in Accounting & Finance, I don't just take tickets. I build profitable systems."
   },
 
+  // 2. CONTACT INFORMATION
   email: "abdalahjoseph80@gmail.com",
   phone: "+255 688 735 820",
   location: "Dar es Salaam, Tanzania",
-  address: "P.O. Box 30112, Dar es Salaam", // <--- ANWANI IMEONGEZWA HAPA
+  address: "P.O. Box 30112, Dar es Salaam",
 
+  // 3. SOCIAL LINKS
   socials: {
     whatsapp: "https://wa.me/255688735820",
     instagram: "https://www.instagram.com/abdalahwambura",
@@ -30,18 +33,21 @@ export const userData = {
     github: "https://github.com/abdalahjoseph52-afk"
   },
 
+  // 4. SKILLS (HAPA TUMEONGEZA DIGITAL MARKETING)
   skills: [
     { title: "Technical Architecture", desc: "React, Node.js, Tailwind, Firebase" },
     { title: "Business & Finance", desc: "Financial Analysis, Strategic Planning" },
+    { title: "Digital Marketing", desc: "SEO, Content Strategy, Brand Growth" }, // 🔥 HII HAPA
     { title: "Psychology & EQ", desc: "User Experience (UX), Leadership" }
   ],
 
+  // 5. PROJECTS
   projects: [
     {
       title: "TUCASA CBE Digital Platform",
       category: "Church Management System",
-      description: "A comprehensive system bridging leadership and members. Features a secure Admin Dashboard, CSV exports, and event scheduling.",
-      tech: ["React", "Firebase", "Tailwind CSS"],
+      description: "A comprehensive system bridging leadership and members. Features a secure Admin Dashboard for member database management, CSV exports, event scheduling, and a custom audio player for choir ministry.",
+      tech: ["React", "Firebase", "Tailwind CSS", "Context API"],
       status: "Live System",
       statusColor: "text-green-600 bg-green-50 border-green-100",
       link: "https://tucasa-cbe-web.vercel.app/",
@@ -83,6 +89,7 @@ export const userData = {
     }
   ],
 
+  // 6. BOOKS
   books: [
     {
       id: 1,
@@ -90,7 +97,7 @@ export const userData = {
       subtitle: "Safari ya Kuijua Nafsi Yako",
       author: "Abdalah J. Wambura",
       cover: myBookCover, 
-      desc: "Mwongozo wa kutoka kwenye 'kuwepo tu' na kuelekea kwenye 'kuishi kweli'.",
+      desc: "Kitabu hiki si tangazo la majibu, bali ni ushuhuda wa mwaliko niliopewa na sauti ya ndani. Mwongozo wa kutoka kwenye 'kuwepo tu' na kuelekea kwenye 'kuishi kweli'.",
       pdfUrl: "/book.pdf" 
     }
   ]

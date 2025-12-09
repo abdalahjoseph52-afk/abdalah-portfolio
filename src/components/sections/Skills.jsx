@@ -1,73 +1,112 @@
 import React from 'react';
-import { Code2, Database, Layout, TrendingUp, Calculator, Users, Brain, MessageSquare } from 'lucide-react';
+import { Code2, TrendingUp, Brain, Megaphone } from 'lucide-react';
 
 const Skills = () => {
   
-  // We organize data here to keep the HTML clean
   const skillCategories = [
     {
       title: "Technical Architecture",
-      icon: <Code2 className="w-8 h-8 text-blue-600" />,
-      description: "Building scalable, secure, and high-performance applications.",
-      skills: ["React.js & Next.js", "Tailwind CSS", "Node.js & Express", "PostgreSQL / Firebase"],
-      bg: "bg-blue-50/50",
-      border: "border-blue-100"
+      icon: <Code2 className="w-6 h-6 text-blue-600" />,
+      description: "Building scalable, secure, and high-performance digital architectures.",
+      skills: [
+        "Full Stack (React & Node)", 
+        "Database Design (Firebase)", 
+        "API Integration & Security", 
+        "System Optimization"
+      ],
+      // Blue Theme
+      bg: "bg-blue-50/50", 
+      border: "border-blue-100",
+      dot: "bg-blue-600"
     },
     {
-      title: "Business & Finance",
-      icon: <TrendingUp className="w-8 h-8 text-yellow-600" />, // Yellow for Money/Gold
-      description: "Ensuring digital solutions align with profitability and operational efficiency.",
-      skills: ["Financial Analysis", "Business Administration", "Strategic Planning", "Data Visualization"],
-      bg: "bg-yellow-50/50",
-      border: "border-yellow-100"
+      title: "Finance & Strategy",
+      icon: <TrendingUp className="w-6 h-6 text-yellow-600" />,
+      description: "Ensuring every line of code contributes directly to business profitability.",
+      skills: [
+        "Financial Modeling", 
+        "Business Logic Implementation", 
+        "Automated Reporting", 
+        "Cost-Benefit Analysis"
+      ],
+      // Yellow Theme
+      bg: "bg-yellow-50/50", 
+      border: "border-yellow-100",
+      dot: "bg-yellow-600"
+    },
+    {
+      title: "Digital Marketing",
+      icon: <Megaphone className="w-6 h-6 text-slate-700" />,
+      description: "Amplifying brand visibility through data-driven content and SEO strategies.",
+      skills: [
+        "SEO & Search Ranking", 
+        "Content Strategy", 
+        "Social Media Growth", 
+        "Brand Positioning"
+      ],
+      // Slate Theme (Professional)
+      bg: "bg-slate-100", 
+      border: "border-slate-200",
+      dot: "bg-slate-600"
     },
     {
       title: "Psychology & Leadership",
-      icon: <Brain className="w-8 h-8 text-slate-600" />,
-      description: "Designing user experiences that connect on a human emotional level.",
-      skills: ["Emotional Intelligence", "User Psychology (UX)", "Team Leadership", "Conflict Resolution"],
-      bg: "bg-slate-50",
-      border: "border-slate-200"
+      icon: <Brain className="w-6 h-6 text-slate-700" />,
+      description: "Designing intuitive user experiences that connect on a human emotional level.",
+      skills: [
+        "UX Psychology", 
+        "Team Leadership", 
+        "Conflict Resolution", 
+        "Public Speaking"
+      ],
+      // Slate Theme
+      bg: "bg-slate-100", 
+      border: "border-slate-200",
+      dot: "bg-slate-600"
     }
   ];
 
   return (
-    <section id="skills" className="py-20 bg-white">
+    <section id="skills" className="py-20 bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            More than just code.
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+            The Complete Package.
           </h2>
-          <p className="text-lg text-slate-600">
-            I bring a unique combination of technical power, financial logic, and human understanding to every project.
+          <p className="text-base text-slate-600 leading-relaxed">
+            I bring a unique combination of <span className="font-bold text-blue-600">Technical Power</span>, <span className="font-bold text-yellow-600">Financial Logic</span>, and <span className="font-bold text-slate-700">Market Strategy</span> to every project.
           </p>
         </div>
 
-        {/* The Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Grid: 4 Columns Horizontal */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {skillCategories.map((category, index) => (
             <div 
               key={index} 
-              className={`p-8 rounded-2xl border ${category.border} ${category.bg} hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group`}
+              className={`p-5 rounded-2xl border ${category.border} ${category.bg} hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group flex flex-col h-full`}
             >
-              <div className="mb-6 p-3 bg-white rounded-xl inline-block shadow-sm group-hover:scale-110 transition-transform">
-                {category.icon}
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-300">
+                  {category.icon}
+                </div>
+                <div className={`w-1.5 h-1.5 rounded-full ${category.dot}`}></div>
               </div>
               
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">
                 {category.title}
               </h3>
               
-              <p className="text-slate-600 mb-6 leading-relaxed">
+              <p className="text-slate-600 mb-4 leading-relaxed text-xs opacity-90 min-h-[40px]">
                 {category.description}
               </p>
               
-              <div className="space-y-2">
+              {/* Skills List - Compact & Professional */}
+              <div className="space-y-2 bg-white/70 p-3 rounded-xl border border-slate-100/50 mt-auto">
                 {category.skills.map((skill, i) => (
-                  <div key={i} className="flex items-center text-sm font-medium text-slate-700">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2"></div>
+                  <div key={i} className="flex items-center text-slate-800 text-xs font-semibold">
+                    <div className={`w-1 h-1 rounded-full mr-2 ${category.dot}`}></div>
                     {skill}
                   </div>
                 ))}

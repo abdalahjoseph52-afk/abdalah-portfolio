@@ -7,7 +7,7 @@ import Projects from './components/sections/Projects';
 import Blog from './components/sections/Blog';
 import Library from './components/sections/Library';
 import Contact from './components/sections/Contact';
-import { Loader2, MessageCircle, Phone, Mail, MapPin, Linkedin, Github, Twitter, Instagram } from 'lucide-react';
+import { Loader2, MessageCircle, Phone, Mail, MapPin, Linkedin, Github, Twitter, Instagram, Facebook } from 'lucide-react'; // Added Facebook
 import { auth, db } from './lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -51,7 +51,7 @@ function App() {
     return (
       <>
         <div className="fixed bottom-4 right-4 z-[1000]">
-          <button onClick={() => setIsAdminView(false)} className="bg-red-600 text-white px-4 py-2 rounded-full shadow-xl font-bold text-xs hover:bg-red-700 transition-all hover:scale-105 border border-red-400">Back to Site</button>
+          <button onClick={() => setIsAdminView(false)} className="bg-slate-900 text-white px-5 py-2 rounded-full shadow-2xl font-bold text-xs hover:bg-slate-800 transition-all border border-slate-700">Back to Site</button>
         </div>
         <AdminDashboard />
       </>
@@ -93,7 +93,12 @@ function App() {
               <div>
                  <h4 className="text-white font-bold text-sm mb-4">Socials</h4>
                  <div className="flex gap-4 flex-wrap">
-                    {/* WhatsApp Iko Hapa Sasa */}
+                    {/* Added Facebook Here */}
+                    {contactInfo.facebook && (
+                       <a href={contactInfo.facebook} target="_blank" rel="noreferrer" className="p-2 bg-slate-800 rounded-lg hover:bg-blue-700 hover:text-white transition-all text-slate-400">
+                         <Facebook size={20} />
+                       </a>
+                    )}
                     {contactInfo.whatsapp && (
                        <a href={contactInfo.whatsapp} target="_blank" rel="noreferrer" className="p-2 bg-slate-800 rounded-lg hover:bg-[#25D366] hover:text-white transition-all text-slate-400">
                          <WhatsAppIcon />
@@ -111,7 +116,7 @@ function App() {
           <div className="border-t border-slate-800 pt-8 text-center text-xs text-slate-500">
             <p>
               © {new Date().getFullYear()} {userData.name}. All Rights Reserved
-              {/* THE STEALTH DOT (.) - Imerekebishwa iwe rahisi kugusika */}
+              {/* THE STEALTH DOT (.) */}
               <button 
                 onClick={() => setIsAdminView(true)} 
                 className="w-4 h-4 inline-flex items-center justify-center ml-1 text-slate-800 hover:text-slate-600 focus:outline-none transition-colors cursor-pointer select-none"

@@ -4,13 +4,13 @@ import { collection, query, orderBy, onSnapshot, addDoc, deleteDoc, updateDoc, d
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { uploadImage } from '../../lib/uploadService';
 import { useToast } from '../../context/ToastContext';
-// 👇 HAPA: Nimehakikisha 'Download' na 'Settings' zipo
-import { 
-  LayoutDashboard, Folder, BookOpen, FileText, Mail, LogOut, Plus, Edit2, Trash2, X, Loader2, 
-  UploadCloud, Phone, MessageSquare, Settings, Instagram, Twitter, Linkedin, Github, MapPin, Download
-} from 'lucide-react';
 import ReactQuill from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css'; 
+// Added Facebook Icon
+import { 
+  LayoutDashboard, Folder, BookOpen, FileText, Mail, LogOut, Plus, Edit2, Trash2, X, Loader2, 
+  UploadCloud, Phone, MessageSquare, Settings, Instagram, Twitter, Linkedin, Github, Facebook, MapPin, Download
+} from 'lucide-react';
 
 const AdminDashboard = () => {
   const { success, error } = useToast();
@@ -22,7 +22,8 @@ const AdminDashboard = () => {
   const [data, setData] = useState({ projects: [], blogs: [], books: [], messages: [] });
   const [settings, setSettings] = useState({
     email: '', phone: '', location: '', address: '', whatsapp: '', 
-    instagram: '', twitter: '', linkedin: '', github: '', profileImage: ''
+    instagram: '', twitter: '', linkedin: '', github: '', facebook: '', // Added Facebook
+    profileImage: ''
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,7 +36,10 @@ const AdminDashboard = () => {
   const quillModules = {
     toolbar: [
       [{ 'header': [1, 2, 3, false] }],
+      [{ 'font': [] }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
       ['bold', 'italic', 'underline', 'strike'],
+      [{ 'align': [] }],
       [{ 'color': [] }, { 'background': [] }],
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       ['link', 'clean']
@@ -50,7 +54,7 @@ const AdminDashboard = () => {
         const unsubs = collections.map(key => 
           onSnapshot(query(collection(db, key), orderBy('createdAt', 'desc')), s => {
             setData(prev => ({ ...prev, [key]: s.docs.map(d => ({ id: d.id, ...d.data() })) }));
-          }, (err) => console.error(err))
+          })
         );
         getDoc(doc(db, "settings", "general")).then(d => { if(d.exists()) setSettings(d.data()); });
         
@@ -67,7 +71,7 @@ const AdminDashboard = () => {
     try { 
       await signInWithEmailAndPassword(auth, authForm.email, authForm.password); 
       success("Umeingia!"); 
-    } catch (err) { error("Imeshindikana. Angalia mtandao."); } 
+    } catch (err) { error("Imeshindikana. Hakiki email/password."); } 
     finally { setIsSubmitting(false); }
   };
 
@@ -87,12 +91,11 @@ const AdminDashboard = () => {
           const url = await uploadImage(selectedFile);
           payload.image = url; 
           if (collectionName === 'books') payload.cover = url;
-        } catch(e) { throw new Error("Picha imegoma kupanda."); }
+        } catch(e) { throw new Error("Picha imegoma."); }
       }
       
       if (collectionName === 'books' && pdfFile) {
-         try { const pdfUrl = await uploadImage(pdfFile); payload.pdfUrl = pdfUrl; } 
-         catch(e) { throw new Error("PDF imegoma."); }
+         try { const pdfUrl = await uploadImage(pdfFile); payload.pdfUrl = pdfUrl; } catch(e) { throw new Error("PDF imegoma."); }
       }
 
       if (collectionName === 'projects' && typeof payload.tech === 'string') {
@@ -139,15 +142,8 @@ const AdminDashboard = () => {
       case 'blogs': return (
         <>
           <input className="w-full p-3 border rounded mb-3" placeholder="Article Title" value={formData.title||''} onChange={e=>setFormData({...formData, title:e.target.value})}/>
-          <div className="grid grid-cols-2 gap-3 mb-3">
-             <input className="p-3 border rounded" placeholder="Category" value={formData.category||''} onChange={e=>setFormData({...formData, category:e.target.value})}/>
-             <input className="p-3 border rounded" type="date" value={formData.date||''} onChange={e=>setFormData({...formData, date:e.target.value})}/>
-          </div>
-          <textarea className="w-full p-3 border rounded mb-3" rows="2" placeholder="Short Summary" value={formData.summary||''} onChange={e=>setFormData({...formData, summary:e.target.value})}/>
-          <div className="mb-4 bg-white">
-            <label className="block text-sm font-bold mb-1 text-slate-700">Content</label>
-            <ReactQuill theme="snow" value={formData.content || ''} onChange={(content) => setFormData({...formData, content})} modules={quillModules} className="h-64 mb-12" />
-          </div>
+          <div className="grid grid-cols-2 gap-3 mb-3"><input className="p-3 border rounded" placeholder="Category" value={formData.category||''} onChange={e=>setFormData({...formData, category:e.target.value})}/><input className="p-3 border rounded" type="date" value={formData.date||''} onChange={e=>setFormData({...formData, date:e.target.value})}/></div><textarea className="w-full p-3 border rounded mb-3" rows="2" placeholder="Short Summary" value={formData.summary||''} onChange={e=>setFormData({...formData, summary:e.target.value})}/>
+          <div className="mb-4 bg-white"><label className="block text-sm font-bold mb-1 text-slate-700">Content</label><ReactQuill theme="snow" value={formData.content || ''} onChange={(content) => setFormData({...formData, content})} modules={quillModules} className="h-64 mb-12" /></div>
           <div className="border-2 border-dashed p-4 rounded text-center mt-4"><p className="text-xs mb-1">Blog Image</p><input type="file" accept="image/*" onChange={e=>setSelectedFile(e.target.files[0])}/></div>
         </>
       );
@@ -193,19 +189,24 @@ const AdminDashboard = () => {
                      <input className="p-3 border rounded-lg" placeholder="Address (P.O. Box)" value={settings.address} onChange={e=>setSettings({...settings, address:e.target.value})}/>
                    </div>
                  </div>
+
                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                    <h3 className="font-bold text-lg mb-4">Social Media & Profile</h3>
                    <div className="grid grid-cols-1 gap-4 mb-6">
                      <div className="flex gap-2 items-center"><span className="w-8"><MessageSquare size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="WhatsApp Link (Full URL)" value={settings.whatsapp} onChange={e=>setSettings({...settings, whatsapp:e.target.value})}/></div>
+                     {/* ADDED FACEBOOK HERE */}
+                     <div className="flex gap-2 items-center"><span className="w-8"><Facebook size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="Facebook Link" value={settings.facebook} onChange={e=>setSettings({...settings, facebook:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Instagram size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="Instagram Link" value={settings.instagram} onChange={e=>setSettings({...settings, instagram:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Linkedin size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="LinkedIn Link" value={settings.linkedin} onChange={e=>setSettings({...settings, linkedin:e.target.value})}/></div>
                      <div className="flex gap-2 items-center"><span className="w-8"><Github size={20}/></span><input className="flex-1 p-2 border rounded" placeholder="GitHub Link" value={settings.github} onChange={e=>setSettings({...settings, github:e.target.value})}/></div>
                    </div>
+                   
                    <div className="border-t pt-4">
                        <h4 className="font-bold text-sm mb-2">Update Profile Picture</h4>
                        <input type="file" accept="image/*" onChange={e => setSelectedFile(e.target.files[0])} className="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-50 file:text-blue-700"/>
                    </div>
                  </div>
+
                  <button onClick={handleSettingsSave} disabled={isSubmitting} className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">{isSubmitting?'Saving...':'Save Settings'}</button>
                </div>
             ) : activeTab === 'messages' ? (
@@ -230,7 +231,9 @@ const AdminDashboard = () => {
                    <div key={item.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 relative group">
                      <div className="h-40 bg-slate-100 rounded-lg mb-3 overflow-hidden relative">
                        {(item.image || item.cover) && <img src={item.image || item.cover} className="w-full h-full object-cover"/>}
-                       <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                       
+                       {/* FIX: Buttons are now always visible (removed opacity-0 group-hover:opacity-100) */}
+                       <div className="absolute top-2 right-2 flex gap-1">
                          <button onClick={()=>openModal(item)} className="p-2 bg-white rounded-full text-blue-600 shadow-sm"><Edit2 size={14}/></button>
                          <button onClick={()=>deleteItem(activeTab, item.id)} className="p-2 bg-white rounded-full text-red-600 shadow-sm"><Trash2 size={14}/></button>
                        </div>
