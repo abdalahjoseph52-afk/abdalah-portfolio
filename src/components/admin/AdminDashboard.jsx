@@ -8,8 +8,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; 
 import { 
   LayoutDashboard, Folder, BookOpen, FileText, Mail, LogOut, Plus, Edit2, Trash2, X, Loader2, 
-  UploadCloud, Phone, MessageSquare, Settings, Instagram, Twitter, Linkedin, Github, Facebook, MapPin, Download
-} from 'lucide-react';
+  UploadCloud, Phone, MessageSquare, Settings, Instagram, Twitter, Linkedin, Github, Facebook, MapPin, Download, Menu
+} from 'lucide-react'; // 👈 Menu Icon Added
 
 const AdminDashboard = () => {
   const { success, error } = useToast();
@@ -17,6 +17,7 @@ const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('projects');
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 👈 State for Mobile Menu
   
   const [data, setData] = useState({ projects: [], blogs: [], books: [], messages: [] });
   const [settings, setSettings] = useState({
@@ -151,11 +152,41 @@ const AdminDashboard = () => {
     }
   };
 
+  // Login Screen
   if (!user) return (<div className="min-h-screen flex items-center justify-center bg-slate-100 p-4"><div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md"><h2 className="text-2xl font-bold text-center mb-6">Portfolio Admin</h2><form onSubmit={handleLogin} className="space-y-4"><input className="w-full p-4 border rounded-xl" placeholder="Email" value={authForm.email} onChange={e=>setAuthForm({...authForm, email:e.target.value})}/><input className="w-full p-4 border rounded-xl" type="password" placeholder="Password" value={authForm.password} onChange={e=>setAuthForm({...authForm, password:e.target.value})}/><button disabled={isSubmitting} className="w-full bg-slate-900 text-white py-3 rounded-xl font-bold">{isSubmitting?'Checking...':'Login'}</button></form></div></div>);
 
+  // MAIN ADMIN LAYOUT
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-900">
-      <aside className="w-full md:w-64 bg-slate-900 text-slate-300 flex-shrink-0 md:h-screen sticky top-0 overflow-y-auto hidden md:block">
+      
+      {/* 🔴 MOBILE HEADER (Mpya: Inaonekana kwenye simu tu) */}
+      <div className="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
+        <h2 className="font-bold text-lg tracking-wide">Admin Panel</h2>
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 hover:bg-slate-800 rounded-lg transition-colors">
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* 🔴 MOBILE NAVIGATION MENU (Inashuka chini ikibonyezwa) */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 top-16 z-40 bg-slate-900/95 backdrop-blur-sm p-4 overflow-y-auto">
+           <nav className="space-y-2 mb-8">
+             {[{id:'projects',icon:Folder,l:'Projects'},{id:'blogs',icon:FileText,l:'Blog'},{id:'books',icon:BookOpen,l:'Library'},{id:'messages',icon:Mail,l:'Inbox'},{id:'settings',icon:Settings,l:'Settings'}].map(t => (
+               <button 
+                 key={t.id} 
+                 onClick={() => { setActiveTab(t.id); setIsMobileMenuOpen(false); }} 
+                 className={`w-full flex items-center gap-3 px-4 py-4 rounded-xl text-lg font-medium transition-all ${activeTab===t.id ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}
+               >
+                 <t.icon size={20}/> {t.l}
+               </button>
+             ))}
+           </nav>
+           <button onClick={handleLogout} className="flex items-center gap-3 text-red-400 hover:text-red-300 w-full px-4 py-4 text-lg font-bold border-t border-slate-800"><LogOut size={20}/> Logout</button>
+        </div>
+      )}
+
+      {/* DESKTOP SIDEBAR (Inaonekana kwenye PC tu) */}
+      <aside className="hidden md:block w-64 bg-slate-900 text-slate-300 flex-shrink-0 md:h-screen sticky top-0 overflow-y-auto">
         <div className="p-6 font-bold text-white text-xl">Admin Panel</div>
         <nav className="flex-1 px-4 space-y-2">
           {[{id:'projects',icon:Folder,l:'Projects'},{id:'blogs',icon:FileText,l:'Blog'},{id:'books',icon:BookOpen,l:'Library'},{id:'messages',icon:Mail,l:'Inbox'},{id:'settings',icon:Settings,l:'Settings'}].map(t => (
@@ -165,20 +196,23 @@ const AdminDashboard = () => {
         <div className="p-4"><button onClick={handleLogout} className="flex items-center gap-2 text-red-400 hover:text-red-300 w-full px-4"><LogOut size={18}/> Logout</button></div>
       </aside>
 
+      {/* MAIN CONTENT AREA */}
       <main className="flex-1 p-6 md:p-10 pb-32">
         {isLoading ? <div className="text-center py-20"><Loader2 className="animate-spin mx-auto"/></div> : (
           <>
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-3xl font-bold text-slate-900 capitalize">{activeTab}</h1>
               {activeTab === 'messages' ? (
-                 <button onClick={handleExportMessages} className="bg-green-600 text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-lg hover:bg-green-700"><Download size={20}/> Export CSV</button>
+                 <button onClick={handleExportMessages} className="bg-green-600 text-white px-4 md:px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-lg hover:bg-green-700 text-sm md:text-base"><Download size={20}/> <span className="hidden md:inline">Export CSV</span></button>
               ) : activeTab !== 'settings' && (
-                 <button onClick={()=>openModal()} className="bg-slate-900 text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-lg hover:bg-slate-800"><Plus size={20}/> Add New</button>
+                 <button onClick={()=>openModal()} className="bg-slate-900 text-white px-4 md:px-6 py-2 rounded-full font-bold flex items-center gap-2 shadow-lg hover:bg-slate-800 text-sm md:text-base"><Plus size={20}/> <span className="hidden md:inline">Add New</span><span className="md:hidden">Add</span></button>
               )}
             </div>
 
+            {/* CONTENT RENDERER */}
             {activeTab === 'settings' ? (
                <div className="max-w-3xl space-y-6">
+                 {/* Settings Form */}
                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                    <h3 className="font-bold text-lg mb-4">Contact Info</h3>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -213,15 +247,19 @@ const AdminDashboard = () => {
                        <button onClick={()=>deleteItem('messages', msg.id)} className="text-red-400 hover:text-red-600"><Trash2 size={16}/></button>
                      </div>
                      <p className="mt-3 text-sm bg-slate-50 p-3 rounded">{msg.message}</p>
+                     <div className="mt-3 flex gap-2">
+                       {msg.phone && <a href={`https://wa.me/${msg.phone.replace('+','')}`} target="_blank" rel="noreferrer" className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded font-bold flex items-center gap-1"><MessageSquare size={12}/> WhatsApp</a>}
+                       {msg.phone && <a href={`tel:${msg.phone}`} className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded font-bold flex items-center gap-1"><Phone size={12}/> Call</a>}
+                     </div>
                    </div>
                  ))}
                </div>
             ) : (
                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                  {data[activeTab]?.map(item => (
-                   <div key={item.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col h-full">
-                     {/* Image Container */}
-                     <div className="h-40 bg-slate-100 rounded-lg mb-3 overflow-hidden relative">
+                   <div key={item.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 relative flex flex-col">
+                     {/* Image Section */}
+                     <div className="h-40 bg-slate-100 rounded-lg mb-3 overflow-hidden">
                        {(item.image || item.cover) ? (
                          <img src={item.image || item.cover} className="w-full h-full object-cover"/>
                        ) : (
@@ -229,18 +267,18 @@ const AdminDashboard = () => {
                        )}
                      </div>
                      
-                     {/* Content */}
-                     <div className="flex-1 mb-4">
+                     {/* Content Section */}
+                     <div className="flex-1">
                         <h3 className="font-bold text-slate-900 line-clamp-1">{item.title}</h3>
-                        <p className="text-xs text-slate-500 line-clamp-1">{item.category || item.author}</p>
+                        <p className="text-xs text-slate-500 line-clamp-1 mb-4">{item.category || item.author}</p>
                      </div>
 
-                     {/* BUTTONS ZIKO CHINI (ZINAONEKANA MUDA WOTE) */}
-                     <div className="flex gap-2 pt-3 border-t border-slate-100 mt-auto">
-                       <button onClick={()=>openModal(item)} className="flex-1 flex items-center justify-center gap-2 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-bold active:scale-95 transition-transform">
+                     {/* FIXED MOBILE BUTTONS: Ziko chini, zinaonekana muda wote */}
+                     <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 mt-auto">
+                       <button onClick={()=>openModal(item)} className="flex items-center justify-center gap-1 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-bold active:scale-95 transition-transform">
                          <Edit2 size={16}/> Edit
                        </button>
-                       <button onClick={()=>deleteItem(activeTab, item.id)} className="flex-1 flex items-center justify-center gap-2 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-bold active:scale-95 transition-transform">
+                       <button onClick={()=>deleteItem(activeTab, item.id)} className="flex items-center justify-center gap-1 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-bold active:scale-95 transition-transform">
                          <Trash2 size={16}/> Del
                        </button>
                      </div>
