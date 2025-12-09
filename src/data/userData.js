@@ -3,9 +3,10 @@ import profileImg from '../assets/profile.jpg';
 import propertyImg from '../assets/property-dashboard.png';
 import redinkImg from '../assets/redink.png';
 import ujenziImg from '../assets/ujenzi.png';
-
-// 1. IMPORT YOUR LOCAL BOOK COVER
 import myBookCover from '../assets/my-book-cover.jpg'; 
+
+// 1. HAPA: TUME-IMPORT PICHA MPYA ULIYOIWEKA
+import tucasaImg from '../assets/tucasa-preview.png'; 
 
 export const userData = {
   // 1. PERSONAL DETAILS
@@ -40,6 +41,19 @@ export const userData = {
 
   // 5. PROJECTS
   projects: [
+    // HII HAPA PROJECT MPYA YA TUCASA (YA KWANZA)
+    {
+      title: "TUCASA CBE Digital Platform",
+      category: "Church Management System",
+      description: "A comprehensive system bridging leadership and members. Features a secure Admin Dashboard for member database management, CSV exports, event scheduling, and a custom audio player for choir ministry.",
+      tech: ["React", "Firebase", "Tailwind CSS", "Context API"],
+      status: "Live System",
+      statusColor: "text-green-600 bg-green-50 border-green-100", // Kijani kuonesha iko Live
+      link: "https://tucasa-cbe-web.vercel.app/",
+      github: "https://github.com/abdalahjoseph52-afk/tucasa-cbe-web",
+      image: tucasaImg // Inatumia picha uliyoweka
+    },
+    // PROJECTS ZINGINE ZINAFUATA CHINI
     {
       title: "Ujenzi Tips Platform",
       category: "Construction Tech",
@@ -82,12 +96,9 @@ export const userData = {
       title: "MAISHA ZAIDI YA KUISHI",
       subtitle: "Safari ya Kuijua Nafsi Yako",
       author: "Abdalah J. Wambura",
-      
-      // ✅ 2. USE THE LOCAL IMAGE VARIABLE HERE
       cover: myBookCover, 
-      
       desc: "Kitabu hiki si tangazo la majibu, bali ni ushuhuda wa mwaliko niliopewa na sauti ya ndani. Mwongozo wa kutoka kwenye 'kuwepo tu' na kuelekea kwenye 'kuishi kweli'.",
-      pdfUrl: "/book.pdf" // Ensure 'book.pdf' is in your public folder!
+      pdfUrl: "/book.pdf" 
     }
   ]
 };
