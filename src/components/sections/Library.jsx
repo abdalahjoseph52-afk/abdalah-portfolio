@@ -8,102 +8,83 @@ const Library = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch books from Firebase
   useEffect(() => {
     const q = query(collection(db, 'books'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const fetchedBooks = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setBooks(fetchedBooks);
+      setBooks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setLoading(false);
     });
     return unsubscribe;
   }, []);
 
-  if (loading) return <div className="py-24 flex justify-center"><Loader2 className="animate-spin text-blue-600"/></div>;
+  if (loading) return <div className="py-12 flex justify-center"><Loader2 className="animate-spin text-blue-600"/></div>;
 
   return (
-    <section id="library" className="py-16 md:py-24 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <section id="library" className="py-12 md:py-24 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12 gap-4 md:gap-6">
-          <div className="text-center md:text-left w-full">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 md:mb-4">
-              My Library
-            </h2>
-            <p className="text-base md:text-lg text-slate-600 max-w-xl mx-auto md:mx-0">
-              Sharing knowledge through writing. Read online or download.
-            </p>
-          </div>
+        <div className="mb-8 md:mb-12">
+          <h2 className="text-2xl md:text-4xl font-bold text-slate-900 mb-2">My Library</h2>
+          <p className="text-sm md:text-lg text-slate-600">Knowledge sharing & resources.</p>
         </div>
 
-        {/* The Grid */}
-        {books.length === 0 ? <p className="text-center text-slate-500 py-10">No books added yet.</p> : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            {books.map((book) => (
-              <motion.div 
-                key={book.id}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-2xl p-5 md:p-6 shadow-lg border border-slate-100 flex flex-col h-full"
-              >
-                {/* Book Cover */}
-                <div className="relative aspect-[3/4] bg-slate-900 rounded-lg mb-5 overflow-hidden shadow-md group">
-                  {book.cover && (
-                    <img 
-                      src={book.cover} 
-                      alt={book.title} 
-                      className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" 
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-4 border-[8px] border-white/10">
-                    <h3 className="text-white font-bold text-lg md:text-xl mb-2 font-serif drop-shadow-md leading-tight">
-                      {book.title}
-                    </h3>
-                    <p className="text-yellow-400 text-[10px] uppercase tracking-widest font-bold">
-                      {book.subtitle}
-                    </p>
+        {/* 📱 MOBILE FIX: grid-cols-2 (Books look great in 2 cols) */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-8">
+          {books.map((book) => (
+            <div 
+              key={book.id}
+              className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 flex flex-col h-full"
+            >
+              {/* Cover - Aspect Ratio Locked */}
+              <div className="relative aspect-[3/4] bg-slate-200 group overflow-hidden">
+                {book.cover ? (
+                  <img src={book.cover} alt={book.title} className="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105" />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-slate-400 bg-slate-100">
+                    <BookOpen size={32} />
                   </div>
+                )}
+                
+                {/* Mobile: Gradient Overlay for Text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
+                   <p className="text-white text-[10px] md:text-xs font-bold line-clamp-2 md:hidden">{book.title}</p>
                 </div>
+              </div>
 
-                {/* Details */}
-                <div className="flex-1 text-center md:text-left">
-                  <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-2">{book.title}</h3>
-                  <p className="text-slate-600 text-xs md:text-sm line-clamp-3 mb-6 leading-relaxed">
-                    {book.desc}
-                  </p>
-                </div>
+              {/* Details - Minimal on Mobile */}
+              <div className="p-3 flex-1 flex flex-col">
+                <h3 className="hidden md:block text-lg font-bold text-slate-900 mb-1 leading-tight">{book.title}</h3>
+                <p className="text-xs text-slate-500 line-clamp-2 mb-3 leading-relaxed flex-1">
+                  {book.desc}
+                </p>
 
-                {/* Actions */}
-                <div className="flex gap-3 mt-auto">
+                {/* Actions - Icons only on mobile */}
+                <div className="flex gap-2 mt-auto">
                   {book.pdfUrl && (
                     <a 
                       href={book.pdfUrl} 
                       target="_blank" 
                       rel="noreferrer"
-                      className="flex-1 py-3 rounded-lg bg-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                      className="flex-1 py-2 rounded bg-slate-900 text-white font-bold text-[10px] md:text-xs hover:bg-blue-600 transition-colors flex items-center justify-center gap-1"
                     >
-                      <BookOpen size={16} /> Read
+                      <BookOpen size={12} /> <span className="hidden md:inline">Read</span>
                     </a>
                   )}
-                  
                   {book.pdfUrl && (
                     <a 
-                      href={book.pdfUrl} 
-                      download
-                      className="px-4 py-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center"
-                      title="Download PDF"
+                      href={book.pdfUrl.replace('/upload/', '/upload/fl_attachment/')} 
+                      className="px-3 py-2 rounded border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center"
+                      title="Download"
                     >
-                      <Download size={20} />
+                      <Download size={14} />
                     </a>
                   )}
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,61 +1,63 @@
-// src/components/layout/Navbar.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom'; // Using Link for real pages
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation(); // To highlight active link
 
-  // Add shadow on scroll
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Defined Routes
   const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Blog', href: '#blog' }, // <--- ADDED: Blog Link
-    { name: 'Library', href: '#library' },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Projects', path: '/projects' }, // Dedicated Page
+    { name: 'Library', path: '/library' },
+    { name: 'Blog', path: '/blog' }, // Dedicated Page
   ];
 
+  const isActive = (path) => {
+    if (path === '/' && location.pathname !== '/') return false;
+    return location.pathname.startsWith(path);
+  };
+
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100' : 'bg-transparent'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled || isOpen ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo */}
-          <div className="flex-shrink-0 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
+          <Link to="/" className="flex-shrink-0" onClick={() => window.scrollTo(0, 0)}>
             <span className="text-2xl font-bold text-blue-600">
-              Abdalah Wambura<span className="text-slate-900">.</span>
+              Abdalah<span className="text-slate-900">.</span>
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  className="text-slate-600 hover:text-blue-600 transition-colors duration-300 text-sm font-medium"
+                  to={link.path}
+                  className={`text-sm font-medium transition-colors duration-300 ${isActive(link.path) ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600'}`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
               
-              {/* THE FIX: Wrapped in Anchor Tag */}
-              <a 
-                href="#contact" 
-                className="bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-600/30"
+              <Link 
+                to="/contact" 
+                className="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-600/20"
               >
-                Hire Me
-              </a>
+                Let's Talk
+              </Link>
             </div>
           </div>
 
@@ -73,26 +75,25 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-slate-100 absolute w-full shadow-xl">
-          <div className="px-4 pt-2 pb-6 space-y-2">
+        <div className="md:hidden bg-white border-t border-slate-100 absolute w-full shadow-xl h-screen">
+          <div className="px-6 pt-8 pb-6 space-y-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
-                className="block text-slate-600 hover:text-blue-600 hover:bg-blue-50 px-3 py-3 rounded-md text-base font-medium"
+                to={link.path}
+                className={`block px-3 py-4 rounded-xl text-lg font-bold ${isActive(link.path) ? 'bg-blue-50 text-blue-600' : 'text-slate-600 hover:bg-slate-50'}`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
-            {/* Mobile Hire Me Button */}
-            <a 
-              href="#contact"
+            <Link 
+              to="/contact"
               onClick={() => setIsOpen(false)}
-              className="block w-full text-center bg-blue-600 text-white px-3 py-3 rounded-md text-base font-bold mt-4 hover:bg-blue-700"
+              className="block w-full text-center bg-blue-600 text-white px-3 py-4 rounded-xl text-lg font-bold mt-8 shadow-xl shadow-blue-200"
             >
-              Hire Me
-            </a>
+              Book Consultation
+            </Link>
           </div>
         </div>
       )}

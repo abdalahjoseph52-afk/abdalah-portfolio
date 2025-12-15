@@ -4,7 +4,8 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCRr8R3qdnAY_VfB_vxNGWnWyFYlY6Lm-M",
+  // Security: Key is now pulled from the environment file
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY, 
   authDomain: "abdalah-portfolio.firebaseapp.com",
   projectId: "abdalah-portfolio",
   storageBucket: "abdalah-portfolio.firebasestorage.app",

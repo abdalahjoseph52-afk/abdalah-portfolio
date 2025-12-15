@@ -1,8 +1,8 @@
 // src/lib/uploadService.js
 
-// 👇 Fungu zako za Cloudinary
-const CLOUD_NAME = "dvvcrg3dq"; 
-const UPLOAD_PRESET = "portfolio_preset"; 
+// 👇 Configured via Environment Variables (.env)
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME; 
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET; 
 
 export const uploadFile = async (file) => {
   if (!file) return null;

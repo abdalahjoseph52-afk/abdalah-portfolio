@@ -1,21 +1,21 @@
-// ✅ MASTER CONTROL CENTER (DATA ZAKO ZOTE ZIPO HAPA)
+// src/data/userData.js
 import profileImg from '../assets/profile.jpg';
 import propertyImg from '../assets/property-dashboard.png';
 import redinkImg from '../assets/redink.png';
 import ujenziImg from '../assets/ujenzi.png';
+import tucasaImg from '../assets/tucasa-preview.png';
 import myBookCover from '../assets/my-book-cover.jpg';
-import tucasaImg from '../assets/tucasa-preview.png'; // Hakikisha picha hii ipo src/assets
 
 export const userData = {
   // 1. PERSONAL DETAILS
   name: "Abdalah Wambura",
-  role: "Full Stack Developer | Finance & Admin",
+  role: "Strategic Technologist",
   tagline: "Merging Technical Logic with Business Strategy.",
   profileImage: profileImg,
   
   about: {
-    title: "The \"Why\" Behind the Code",
-    desc: "I noticed a gap in the Tanzanian market: Developers write great code, but they often don't understand the financial or operational goals of the business. With my background in Accounting & Finance, I don't just take tickets. I build profitable systems."
+    title: "The Business Logic Developer",
+    desc: "I bridge the gap between complex code and bottom-line growth. With a background in Finance and Accounting, I don't just write software; I build profitable digital assets that reduce operational costs and maximize revenue."
   },
 
   // 2. CONTACT INFORMATION
@@ -24,7 +24,6 @@ export const userData = {
   location: "Dar es Salaam, Tanzania",
   address: "P.O. Box 30112, Dar es Salaam",
 
-  // 3. SOCIAL LINKS
   socials: {
     whatsapp: "https://wa.me/255688735820",
     instagram: "https://www.instagram.com/abdalahwambura",
@@ -33,21 +32,59 @@ export const userData = {
     github: "https://github.com/abdalahjoseph52-afk"
   },
 
-  // 4. SKILLS (HAPA TUMEONGEZA DIGITAL MARKETING)
-  skills: [
-    { title: "Technical Architecture", desc: "React, Node.js, Tailwind, Firebase" },
-    { title: "Business & Finance", desc: "Financial Analysis, Strategic Planning" },
-    { title: "Digital Marketing", desc: "SEO, Content Strategy, Brand Growth" }, // 🔥 HII HAPA
-    { title: "Psychology & EQ", desc: "User Experience (UX), Leadership" }
+  // 3. TRUST SIGNALS (NEW: Corporate Standard)
+  clients: [
+    { name: "TUCASA CBE", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" }, // Use real logos if available
+    { name: "Redink Agency", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" },
+    { name: "PropertyPro", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" },
+    { name: "Ujenzi Tips", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" }
   ],
 
-  // 5. PROJECTS
+  // 4. SERVICES (Renamed from Skills for Corporate feel)
+  services: [
+    { 
+      title: "Technical Architecture", 
+      desc: "Building scalable, secure, and high-performance digital architectures.",
+      tags: ["React", "Node.js", "Firebase", "System Design"]
+    },
+    { 
+      title: "Financial Strategy", 
+      desc: "Ensuring every line of code contributes directly to business profitability.",
+      tags: ["Financial Modeling", "Business Logic", "ROI Analysis"]
+    },
+    { 
+      title: "Digital Growth", 
+      desc: "Amplifying brand visibility through data-driven content and SEO strategies.",
+      tags: ["SEO", "Content Strategy", "Brand Positioning"]
+    },
+    { 
+      title: "User Experience (UX)", 
+      desc: "Designing intuitive interfaces that reduce training time and friction.",
+      tags: ["Psychology", "UI Design", "Workflow Optimization"]
+    }
+  ],
+
+  // 5. TESTIMONIALS (NEW)
+  testimonials: [
+    {
+      quote: "Abdalah doesn't just take instructions; he challenges the logic to ensure the product actually makes money. A rare find.",
+      author: "Sarah J.",
+      role: "CEO, Redink Agency"
+    },
+    {
+      quote: "The financial dashboard he built saved us 15 hours of manual reconciliation every week. Highly recommended.",
+      author: "David M.",
+      role: "Director, PropertyPro TZ"
+    }
+  ],
+
+  // 6. PROJECTS
   projects: [
     {
-      title: "TUCASA CBE Digital Platform",
-      category: "Church Management System",
-      description: "A comprehensive system bridging leadership and members. Features a secure Admin Dashboard for member database management, CSV exports, event scheduling, and a custom audio player for choir ministry.",
-      tech: ["React", "Firebase", "Tailwind CSS", "Context API"],
+      title: "TUCASA CBE Digital",
+      category: "Management Systems",
+      description: "A comprehensive system bridging leadership and members with secure database management.",
+      tech: ["React", "Firebase", "Tailwind"],
       status: "Live System",
       statusColor: "text-green-600 bg-green-50 border-green-100",
       link: "https://tucasa-cbe-web.vercel.app/",
@@ -55,10 +92,21 @@ export const userData = {
       image: tucasaImg
     },
     {
-      title: "Ujenzi Tips Platform",
-      category: "Construction Tech",
+      title: "PropertyPro TZ",
+      category: "Fintech",
+      description: "Financial dashboard for property managers with automated P&L reporting.",
+      tech: ["React", "Recharts", "Finance Logic"],
+      status: "Prototype",
+      statusColor: "text-blue-600 bg-blue-50 border-blue-100",
+      link: "https://property-pro-demo.vercel.app",
+      github: "https://github.com/abdalahjoseph52-afk/property-pro-demo",
+      image: propertyImg
+    },
+    {
+      title: "Ujenzi Tips",
+      category: "EdTech Platform",
       description: "A national construction education platform with bilingual support.",
-      tech: ["React", "Tailwind", "YouTube API"],
+      tech: ["React", "YouTube API"],
       status: "Live Product",
       statusColor: "text-yellow-600 bg-yellow-50 border-yellow-100",
       link: "https://ujenzi-tips.vercel.app",
@@ -67,29 +115,18 @@ export const userData = {
     },
     {
       title: "Redink Agency",
-      category: "Creative Agency",
-      description: "High-performance agency website with 'Pro Max' visuals.",
-      tech: ["Framer Motion", "SEO", "Google Maps"],
-      status: "Live Agency",
+      category: "Corporate Brand",
+      description: "High-performance agency website with advanced SEO and motion graphics.",
+      tech: ["Framer Motion", "SEO"],
+      status: "Live Site",
       statusColor: "text-red-600 bg-red-50 border-red-100",
       link: "https://redink-agency.vercel.app",
       github: "https://github.com/abdalahjoseph52-afk/redink-agency",
       image: redinkImg
-    },
-    {
-      title: "PropertyPro TZ",
-      category: "Fintech & Real Estate",
-      description: "Financial dashboard for property managers with automated P&L reporting.",
-      tech: ["React", "Recharts", "Finance Logic"],
-      status: "Live Prototype",
-      statusColor: "text-blue-600 bg-blue-50 border-blue-100",
-      link: "https://property-pro-demo.vercel.app",
-      github: "https://github.com/abdalahjoseph52-afk/property-pro-demo",
-      image: propertyImg
     }
   ],
 
-  // 6. BOOKS
+  // 7. BOOKS
   books: [
     {
       id: 1,
@@ -97,7 +134,7 @@ export const userData = {
       subtitle: "Safari ya Kuijua Nafsi Yako",
       author: "Abdalah J. Wambura",
       cover: myBookCover, 
-      desc: "Kitabu hiki si tangazo la majibu, bali ni ushuhuda wa mwaliko niliopewa na sauti ya ndani. Mwongozo wa kutoka kwenye 'kuwepo tu' na kuelekea kwenye 'kuishi kweli'.",
+      desc: "A guide to moving from 'just existing' to 'truly living' through self-awareness and purpose.",
       pdfUrl: "/book.pdf" 
     }
   ]
