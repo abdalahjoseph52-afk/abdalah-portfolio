@@ -1,107 +1,119 @@
-// src/components/admin/AdminDashboard.jsx
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { 
+  LayoutDashboard, 
+  FileText, 
+  BookOpen, 
+  MessageSquare, 
+  Settings, 
+  LogOut,
+  FolderOpen
+} from 'lucide-react';
 import { auth } from '../../lib/firebase';
 import { signOut } from 'firebase/auth';
-import { 
-  LayoutDashboard, Folder, BookOpen, FileText, Mail, LogOut, Settings, Menu, X, Loader2 
-} from 'lucide-react';
 
-// Sub-Components
-import Login from './Login';
-import ProjectManager from './tabs/ProjectManager';
+// 👇 FIX IS HERE: Changed './Login' to './login' (lowercase)
+import Login from './login'; 
+
+// Import Tab Components
 import BlogManager from './tabs/BlogManager';
 import LibraryManager from './tabs/LibraryManager';
+import ProjectManager from './tabs/ProjectManager';
 import MessageInbox from './tabs/MessageInbox';
 import SettingsTab from './tabs/SettingsTab';
 
-const AdminDashboard = () => {
-  const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('projects');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+const AdminDashboard = ({ user }) => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((u) => {
-      setUser(u);
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
+  // If not logged in, show Login Screen
+  if (!user) {
+    return <Login />;
+  }
 
+  // Handle Logout
   const handleLogout = async () => {
-    await signOut(auth);
-    navigate('/');
+    if(window.confirm("Are you sure you want to logout?")) {
+       await signOut(auth);
+       window.location.reload();
+    }
   };
 
-  if (loading) return <div className="h-screen flex justify-center items-center"><Loader2 className="animate-spin text-blue-600"/></div>;
-  
-  if (!user) return <Login />;
+  // Sidebar Menu Items
+  const menuItems = [
+    { id: 'overview', label: 'Overview', icon: <LayoutDashboard size={20} /> },
+    { id: 'projects', label: 'Projects', icon: <FolderOpen size={20} /> },
+    { id: 'blog', label: 'Blog Posts', icon: <FileText size={20} /> },
+    { id: 'library', label: 'Library', icon: <BookOpen size={20} /> },
+    { id: 'messages', label: 'Inbox', icon: <MessageSquare size={20} /> },
+    { id: 'settings', label: 'Settings', icon: <Settings size={20} /> },
+  ];
 
   const renderContent = () => {
-    switch(activeTab) {
+    switch (activeTab) {
+      case 'overview': return <div className="p-8 text-center text-slate-500">Overview Dashboard (Coming Soon)</div>;
       case 'projects': return <ProjectManager />;
-      case 'blogs': return <BlogManager />;
-      case 'books': return <LibraryManager />;
+      case 'blog': return <BlogManager />;
+      case 'library': return <LibraryManager />;
       case 'messages': return <MessageInbox />;
       case 'settings': return <SettingsTab />;
       default: return <ProjectManager />;
     }
   };
 
-  const NavItem = ({ id, icon: Icon, label }) => (
-    <button 
-      onClick={() => { setActiveTab(id); setIsMobileMenuOpen(false); }} 
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${activeTab === id ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
-    >
-      <Icon size={20}/> {label}
-    </button>
-  );
-
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-900">
+    <div className="flex h-screen bg-slate-100">
       
-      {/* Mobile Header */}
-      <div className="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0 z-50">
-        <h2 className="font-bold text-lg tracking-wide flex items-center gap-2"><LayoutDashboard size={20}/> Admin</h2>
-        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 hover:bg-slate-800 rounded-lg">
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 z-40 bg-slate-900 p-4">
-           <nav className="space-y-2">
-             <NavItem id="projects" icon={Folder} label="Projects" />
-             <NavItem id="blogs" icon={FileText} label="Blog" />
-             <NavItem id="books" icon={BookOpen} label="Library" />
-             <NavItem id="messages" icon={Mail} label="Inbox" />
-             <NavItem id="settings" icon={Settings} label="Settings" />
-           </nav>
-           <button onClick={handleLogout} className="flex items-center gap-3 text-red-400 w-full px-4 py-4 mt-8 border-t border-slate-800 font-bold"><LogOut size={20}/> Logout</button>
+      {/* Sidebar */}
+      <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-[#0f172a] text-white transition-all duration-300 flex flex-col`}>
+        <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+          {isSidebarOpen && <span className="font-bold text-xl tracking-tight">Admin<span className="text-blue-500">.</span></span>}
+          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-1 hover:bg-slate-800 rounded">
+            <LayoutDashboard size={20} />
+          </button>
         </div>
-      )}
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:flex w-64 bg-slate-900 text-slate-300 flex-col h-screen sticky top-0">
-        <div className="p-6 font-bold text-white text-xl flex items-center gap-2"><LayoutDashboard className="text-blue-500"/> Dashboard</div>
-        <nav className="flex-1 px-4 space-y-2">
-          <NavItem id="projects" icon={Folder} label="Projects" />
-          <NavItem id="blogs" icon={FileText} label="Blog" />
-          <NavItem id="books" icon={BookOpen} label="Library" />
-          <NavItem id="messages" icon={Mail} label="Inbox" />
-          <NavItem id="settings" icon={Settings} label="Settings" />
+        <nav className="flex-1 py-6 space-y-2 px-3">
+          {menuItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all ${
+                activeTab === item.id ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+              }`}
+            >
+              {item.icon}
+              {isSidebarOpen && <span className="font-medium text-sm">{item.label}</span>}
+            </button>
+          ))}
         </nav>
+
         <div className="p-4 border-t border-slate-800">
-          <button onClick={handleLogout} className="flex items-center gap-2 text-red-400 hover:text-red-300 w-full px-4 py-2 hover:bg-slate-800 rounded-lg transition-colors"><LogOut size={18}/> Logout</button>
+          <button 
+            onClick={handleLogout}
+            className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-colors`}
+          >
+            <LogOut size={20} />
+            {isSidebarOpen && <span className="font-medium text-sm">Logout</span>}
+          </button>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10 pb-32 overflow-y-auto h-screen">
-        <div className="max-w-6xl mx-auto">
+      {/* Main Content Area */}
+      <main className="flex-1 overflow-y-auto">
+        <header className="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10">
+          <h2 className="text-xl font-bold text-slate-800 capitalize">{activeTab}</h2>
+          <div className="flex items-center gap-4">
+            <div className="text-right hidden md:block">
+              <p className="text-sm font-bold text-slate-900">{user.email}</p>
+              <p className="text-xs text-slate-500">Administrator</p>
+            </div>
+            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold border-2 border-white shadow-sm">
+              {user.email[0].toUpperCase()}
+            </div>
+          </div>
+        </header>
+        
+        <div className="p-6 md:p-8 max-w-7xl mx-auto">
           {renderContent()}
         </div>
       </main>
