@@ -1,7 +1,7 @@
+// src/components/sections/Contact.jsx
 import React, { useState } from 'react';
-import { MdSend, MdCheckCircle } from 'react-icons/md'; // Google Material Icons
+import { MdSend, MdCheckCircle, MdCalendarToday } from 'react-icons/md'; 
 import { Loader2 } from 'lucide-react';
-import { userData } from '../../data/userData';
 import { db } from '../../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useToast } from '../../context/ToastContext';
@@ -57,6 +57,24 @@ const Contact = () => {
                 <span className="font-medium text-slate-700">Enterprise-Grade React/Node</span>
               </div>
             </div>
+
+            {/* 👇 NEW BOOKING SECTION (Spec 7.2) */}
+            <div className="mt-8 pt-8 border-t border-slate-200">
+                <div className="bg-blue-900 rounded-2xl p-6 text-white text-center shadow-xl shadow-blue-900/20">
+                    <MdCalendarToday className="text-3xl mx-auto mb-3 text-blue-300" />
+                    <h4 className="text-xl font-bold mb-2">Skip the emails?</h4>
+                    <p className="text-blue-200 text-sm mb-6">Book a 15-minute technical discovery call directly on my calendar.</p>
+                    <a 
+                        href="https://calendly.com/" // 👈 PUT YOUR LINK HERE
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="inline-block w-full py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-blue-50 transition-colors uppercase text-sm tracking-wide"
+                    >
+                        Book Strategy Call
+                    </a>
+                </div>
+            </div>
+
           </div>
 
           {/* Right Side: Modern Form */}

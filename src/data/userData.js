@@ -1,5 +1,4 @@
-// src/data/userData.js
-import profileImg from '../assets/profile.jpg';
+import profileImg from '../assets/profile.jpg'; // 👈 Hii ndio picha yako
 import propertyImg from '../assets/property-dashboard.png';
 import redinkImg from '../assets/redink.png';
 import ujenziImg from '../assets/ujenzi.png';
@@ -7,18 +6,18 @@ import tucasaImg from '../assets/tucasa-preview.png';
 import myBookCover from '../assets/my-book-cover.jpg';
 
 export const userData = {
-  // 1. PERSONAL DETAILS
   name: "Abdalah Wambura",
   role: "Strategic Technologist",
   tagline: "Merging Technical Logic with Business Strategy.",
-  profileImage: profileImg,
+  
+  // ✅ Hii hapa! Tunatumia variable 'profileImg' (bila quotes "")
+  profileImage: profileImg, 
   
   about: {
     title: "The Business Logic Developer",
     desc: "I bridge the gap between complex code and bottom-line growth. With a background in Finance and Accounting, I don't just write software; I build profitable digital assets that reduce operational costs and maximize revenue."
   },
 
-  // 2. CONTACT INFORMATION
   email: "abdalahjoseph80@gmail.com",
   phone: "+255 688 735 820",
   location: "Dar es Salaam, Tanzania",
@@ -32,15 +31,37 @@ export const userData = {
     github: "https://github.com/abdalahjoseph52-afk"
   },
 
-  // 3. TRUST SIGNALS (NEW: Corporate Standard)
-  clients: [
-    { name: "TUCASA CBE", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" }, // Use real logos if available
-    { name: "Redink Agency", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" },
-    { name: "PropertyPro", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" },
-    { name: "Ujenzi Tips", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" }
+  experience: [
+    {
+      company: "Redink Agency",
+      role: "Lead Full Stack Developer",
+      date: "2023 - Present",
+      desc: "Led the technical restructuring of agency client sites, improving load speeds by 40% and implementing SEO strategies that increased organic traffic by 150%.",
+      tech: ["React", "Next.js", "AWS"]
+    },
+    {
+      company: "TUCASA CBE",
+      role: "Technical Systems Lead",
+      date: "2022 - 2023",
+      desc: "Architected a centralized membership database system handling 500+ active records, reducing administrative data entry time by 20 hours per month.",
+      tech: ["Firebase", "React", "Node.js"]
+    },
+    {
+      company: "Freelance",
+      role: "Web Developer & Consultant",
+      date: "2021 - 2022",
+      desc: "delivered custom web solutions for SMEs in Dar es Salaam, focusing on financial dashboards and inventory management systems.",
+      tech: ["JavaScript", "Tailwind", "Firebase"]
+    }
   ],
 
-  // 4. SERVICES (Renamed from Skills for Corporate feel)
+  clients: [
+    { name: "TUCASA CBE", logo: "https://placehold.co/100" },
+    { name: "Redink Agency", logo: "https://placehold.co/100" },
+    { name: "PropertyPro", logo: "https://placehold.co/100" },
+    { name: "Ujenzi Tips", logo: "https://placehold.co/100" }
+  ],
+
   services: [
     { 
       title: "Technical Architecture", 
@@ -64,7 +85,6 @@ export const userData = {
     }
   ],
 
-  // 5. TESTIMONIALS (NEW)
   testimonials: [
     {
       quote: "Abdalah doesn't just take instructions; he challenges the logic to ensure the product actually makes money. A rare find.",
@@ -78,7 +98,6 @@ export const userData = {
     }
   ],
 
-  // 6. PROJECTS
   projects: [
     {
       title: "TUCASA CBE Digital",
@@ -126,7 +145,6 @@ export const userData = {
     }
   ],
 
-  // 7. BOOKS
   books: [
     {
       id: 1,
